@@ -3,63 +3,41 @@ using UnityEngine.UI;
 
 public class CarSelector : MonoBehaviour
 {
-    public GameObject[] carModels; // Liste des modèles de voitures
-    private int currentIndex = 0;  // Index du modèle actuel
+    [SerializeField] private Button previousButton;
+    [SerializeField] private Button nextButton;
+    [SerializeField] private GameObject[] carModels; // Tableau de modèles de voitures
+    private int currentCar;
 
-    // Références aux boutons de navigation
-    public Button leftArrowButton;
-    public Button rightArrowButton;
-
-    void Start()
+    private void Awake()
     {
-        // Vérifiez si les boutons sont bien assignés
-        if (leftArrowButton != null && rightArrowButton != null)
+        // Vérifie si des modèles de voitures sont assignés dans le tableau
+        if (carModels.Length > 0)
         {
-            leftArrowButton.onClick.AddListener(ShowPreviousCar);
-            rightArrowButton.onClick.AddListener(ShowNextCar);
+            SelectCar(0); // Initialise avec le premier modèle de voiture
         }
         else
         {
-            Debug.LogError("Les boutons ne sont pas assignés dans l'Inspector !");
-        }
-
-        // Afficher le premier modèle au début
-        ShowCar(currentIndex);
-    }
-
-    // Afficher le modèle de voiture selon l'index
-    void ShowCar(int index)
-    {
-        // Désactiver tous les modèles
-        foreach (var car in carModels)
-        {
-            car.SetActive(false);
-        }
-
-        // Activer le modèle sélectionné
-        if (carModels.Length > 0 && index >= 0 && index < carModels.Length)
-        {
-            carModels[index].SetActive(true);
-        }
-        else
-        {
-            Debug.LogError("Index du modèle de voiture invalide : " + index);
+            Debug.LogWarning("Aucun modèle de voiture n'est assigné dans le tableau carModels.");
         }
     }
 
-    // Afficher le modèle précédent
-    public void ShowPreviousCar()
+    public void ChangeCar(int _change)
     {
-        Debug.Log("Flèche gauche cliquée !");  // Message de débogage
-        currentIndex = (currentIndex - 1 + carModels.Length) % carModels.Length;
-        ShowCar(currentIndex);
+        currentCar += _change;
+        currentCar = Mathf.Clamp(currentCar, 0, carModels.Length - 1); // Limite l'index pour éviter les erreurs
+        Debug.Log("ChangeCar called with change: " + _change + ", new currentCar: " + currentCar);
+        SelectCar(currentCar);
     }
 
-    // Afficher le modèle suivant
-    public void ShowNextCar()
+    private void SelectCar(int _index)
     {
-        Debug.Log("Flèche droite cliquée !");  // Message de débogage
-        currentIndex = (currentIndex + 1) % carModels.Length;
-        ShowCar(currentIndex);
+        Debug.Log("SelectCar called with index: " + _index);
+        previousButton.interactable = (_index != 0);
+        nextButton.interactable = (_index != carModels.Length - 1);
+
+        for (int i = 0; i < carModels.Length; i++)
+        {
+            carModels[i].SetActive(i == _index);
+        }
     }
 }
