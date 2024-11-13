@@ -9,7 +9,7 @@ public class MainMenuController : MonoBehaviour
     // Start is called before the first frame update
     public void Startgame()
     {
-        SceneManager.LoadScene("NomDeLaScèneDuJeu");
+        SceneManager.LoadScene("test jeu");
     }
 
   
