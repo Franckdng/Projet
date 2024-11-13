@@ -23,14 +23,22 @@ public class PlayerController : MonoBehaviour
         horizontalinput = Input.GetAxis("Horizontal");
         verticalinput = Input.GetAxis("Vertical");
         if (verticalinput == 1 && speed < 70) { speed += 10 * Time.deltaTime; };
-        if (verticalinput == -1 && speed > -70) { speed -= 10 * Time.deltaTime; };
+        if (verticalinput == -1 && speed > -70 && speed <0) { speed -= 10 * Time.deltaTime; };
+        if (verticalinput == -1 && speed > 0) { speed -= 20 * Time.deltaTime; }
         if (verticalinput < 0.7 && speed > 0) { speed-= 30 * Time.deltaTime; };
         if (verticalinput > -0.7 && speed < 0) { speed += 30 * Time.deltaTime; };
-        if (speed < 0.07 && speed > -0.07   ) { speed = 0; };
-        if ((horizontalinput == -1 || horizontalinput == 1) && turnspeed < 50) { turnspeed += speed*Time.deltaTime; }
-        if (horizontalinput != -1 && horizontalinput != 1 && turnspeed > 30) { turnspeed -= speed * Time.deltaTime; }
+        //if (speed < 0.07 && speed > -0.07   ) { speed = 0; };
+        if(verticalinput < -0.4 && speed>0) { turnspeed = 100; }
+        else turnspeed = speed;
+        if (turnspeed <30) turnspeed = 30;
+        //if (horizontalinput != -1 && turnspeed > 100) { turnspeed -= 70 * Time.deltaTime; }
+        //if ((horizontalinput == -1 || horizontalinput == 1) && turnspeed < 80) { turnspeed += speed*Time.deltaTime; }
+        //if (horizontalinput != -1 && horizontalinput != 1 && turnspeed > 30) { turnspeed -= speed * Time.deltaTime; }
         //transform.Translate(Vector3.right * Time.deltaTime * turnspeed * horizontalinput);
-        if (speed != 0)
+
+
+
+        if (speed > 0.07 || speed < -0.07)
         {
             //move forward
             transform.Translate(Vector3.forward * Time.deltaTime * speed);
