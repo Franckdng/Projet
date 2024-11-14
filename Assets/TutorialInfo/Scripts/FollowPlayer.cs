@@ -17,7 +17,15 @@ public class FollowPlayer : MonoBehaviour
 
     void Start()
     {
-        
+        if (player == null)
+        {
+            Debug.LogError("La référence 'player' n'est pas assignée dans FollowPlayer.");
+        }
+
+        if (playerController == null)
+        {
+            Debug.LogError("La référence 'playerController' n'est pas assignée dans FollowPlayer.");
+        }
     }
 
     // Update is called once per frame
