@@ -32,13 +32,20 @@ public class FollowPlayer : MonoBehaviour
     void LateUpdate()
     {
 
-        Vector3 dynamicOffset = offset + Vector3.back * Mathf.Clamp(playerController.speed * distanceFactor, 0, maxDistanceOffset);
+        float offsetFactor = Mathf.Lerp(0, maxDistanceOffset, playerController.speed / 70);
+        Vector3 dynamicOffset = offset + Vector3.back * offsetFactor;
         // Position cible en tenant compte de l'offset
         Vector3 targetPosition = player.transform.position + player.transform.rotation * dynamicOffset;
-        followSpeed = playerController.speed /3f;
+
+        // Calculez une valeur cible pour followSpeed en fonction de la vitesse
+        float targetFollowSpeed = Mathf.Max(playerController.speed / 3f, 5f);
+        // Lissez la transition de followSpeed
+        followSpeed = Mathf.Lerp(followSpeed, targetFollowSpeed, Time.deltaTime * 2f);
+
         if (followSpeed < 5) { followSpeed = 5; }
         // Lissage de la position (on interpole vers la position cible pour éviter un mouvement brusque)
-        transform.position = Vector3.Lerp(transform.position, targetPosition, followSpeed * Time.deltaTime);
+        float smoothFactor = Mathf.Clamp01(followSpeed * Time.deltaTime);
+        transform.position = Vector3.Lerp(transform.position, targetPosition, smoothFactor);
         //transform.position = player.transform.position + player.transform.rotation * dynamicOffset;
 
         // Calcul de la rotation cible pour garder la caméra derrière la voiture
