@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
     public float horizontalinput;
     public float verticalinput;
     public bool ausol;
-    public float distancesol = 0.1f;
+    public float distancesol = 0.2f;
     public Rigidbody rb;
 
     // Start is called before the first frame update
@@ -75,8 +75,12 @@ public class PlayerController : MonoBehaviour
         ausol = Physics.Raycast(transform.position + Vector3.up * 0.1f, Vector3.down, distancesol);
 
         // Obtenir les entrées
-        horizontalinput = button.b;
-        verticalinput = button.a;
+
+        /*horizontalinput = button.b;
+        verticalinput = button.a;*/
+
+        horizontalinput = Input.GetAxis("Horizontal");
+        verticalinput = Input.GetAxis("Vertical");
 
         // Accélération et décélération
         if (ausol)
