@@ -76,11 +76,11 @@ public class PlayerController : MonoBehaviour
 
         // Obtenir les entrées
 
-        /*horizontalinput = button.b;
-        verticalinput = button.a;*/
+        horizontalinput = button.b;
+        verticalinput = button.a;
 
-        horizontalinput = Input.GetAxis("Horizontal");
-        verticalinput = Input.GetAxis("Vertical");
+        //horizontalinput = Input.GetAxis("Horizontal");
+        //verticalinput = Input.GetAxis("Vertical");
 
         // Accélération et décélération
         if (ausol)
