@@ -12,11 +12,8 @@ public class PlayerController : MonoBehaviour
     public float verticalinput;
     public bool ausol;
 <<<<<<< Updated upstream
-<<<<<<< Updated upstream
     public float distancesol = 0.1f;
 =======
-=======
->>>>>>> Stashed changes
     public bool mur;
     public float distancesol = 0.2f;
     public Rigidbody rb;
@@ -116,7 +113,6 @@ public class PlayerController : MonoBehaviour
 
         }
 
-<<<<<<< Updated upstream
         //if (speed < 0.07 && speed > -0.07   ) { speed = 0; };
         if(verticalinput < -0.4 && speed>0 && ausol) { turnspeed = 100; }
         else turnspeed = speed;
@@ -125,10 +121,6 @@ public class PlayerController : MonoBehaviour
         //if ((horizontalinput == -1 || horizontalinput == 1) && turnspeed < 80) { turnspeed += speed*Time.deltaTime; }
         //if (horizontalinput != -1 && horizontalinput != 1 && turnspeed > 30) { turnspeed -= speed * Time.deltaTime; }
         //transform.Translate(Vector3.right * Time.deltaTime * turnspeed * horizontalinput);
-=======
-
-    }
->>>>>>> Stashed changes
 
 
 
@@ -139,12 +131,9 @@ public class PlayerController : MonoBehaviour
             transform.Rotate(Vector3.up * Time.deltaTime * turnspeed * horizontalinput);
         }
 <<<<<<< Updated upstream
-<<<<<<< Updated upstream
         
     }
 =======
-=======
->>>>>>> Stashed changes
         else { transform.Translate(0, 0, 0); }
         // Rotation uniquement si la voiture bouge
     }
