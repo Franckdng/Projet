@@ -1,23 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.UIElements;
 
 public class PlayerController : MonoBehaviour
 {
-
+    public control button;
     public float speed = 0.0f;
     public float turnspeed;
     public float horizontalinput;
     public float verticalinput;
     public bool ausol;
-<<<<<<< Updated upstream
     public float distancesol = 0.1f;
-=======
     public bool mur;
-    public float distancesol = 0.2f;
     public Rigidbody rb;
->>>>>>> Stashed changes
 
     // Start is called before the first frame update
     void Start()
@@ -28,61 +25,6 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-<<<<<<< Updated upstream
-        ausol = Physics.Raycast(transform.position + Vector3.up*0.1f, Vector3.down, distancesol);
-        
-        horizontalinput = Input.GetAxis("Horizontal");
-        verticalinput = Input.GetAxis("Vertical");
-        
-=======
-        /*   
-           ausol = Physics.Raycast(transform.position + Vector3.up*0.1f, Vector3.down, distancesol);
-
-           horizontalinput = button.b;
-           verticalinput = button.a;
-
-           if (ausol)
-           {
-           if (verticalinput == 1 && speed < 70) { speed += 10 * Time.deltaTime; };
-           if (verticalinput == -1 && speed > -70 && speed <0) { speed -= 10 * Time.deltaTime; };
-           if (verticalinput == -1 && speed > 0) { speed -= 20 * Time.deltaTime; }
-           if (verticalinput < 0.7 && speed > 0) { speed-= 20 * Time.deltaTime; };
-           if (verticalinput > -0.7 && speed < 0) { speed += 20 * Time.deltaTime; };
-           }
-           else
-           {
-               if(speed > 0 ) { speed -= 20 * Time.deltaTime; };
-               if (speed < 0) {speed += 20 * Time.deltaTime;
-           }
-
-           }
-
-           //if (speed < 0.07 && speed > -0.07   ) { speed = 0; };
-           if(verticalinput < -0.4 && speed>0 && ausol) { turnspeed = 100; }
-           else turnspeed = speed;
-           if (turnspeed <30) turnspeed = 30;
-           //if (horizontalinput != -1 && turnspeed > 100) { turnspeed -= 70 * Time.deltaTime; }
-           //if ((horizontalinput == -1 || horizontalinput == 1) && turnspeed < 80) { turnspeed += speed*Time.deltaTime; }
-           //if (horizontalinput != -1 && horizontalinput != 1 && turnspeed > 30) { turnspeed -= speed * Time.deltaTime; }
-           //transform.Translate(Vector3.right * Time.deltaTime * turnspeed * horizontalinput);
-
-
-
-           if (speed > 0.07 || speed < -0.07)
-           {
-               //move forward
-               transform.Translate(Vector3.forward * Time.deltaTime * speed);
-               transform.Rotate(Vector3.up * Time.deltaTime * turnspeed * horizontalinput);
-           }
-           else
-           {
-               transform.Translate(0,0,0);
-           }
-           */
-
-
-        
-        
         // Vérification si la voiture est au sol
         ausol = Physics.Raycast(transform.position + Vector3.up * 0.1f, Vector3.down, distancesol);
 
@@ -91,11 +33,7 @@ public class PlayerController : MonoBehaviour
         horizontalinput = button.b;
         verticalinput = button.a;
 
-        //horizontalinput = Input.GetAxis("Horizontal");
-        //verticalinput = Input.GetAxis("Vertical");
-
         // Accélération et décélération
->>>>>>> Stashed changes
         if (ausol)
         {
         if (verticalinput == 1 && speed < 70) { speed += 10 * Time.deltaTime; };
@@ -106,38 +44,36 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            if(speed > 0 ) { speed -= 20 * Time.deltaTime; };
-            if (speed < 0) {speed += 20 * Time.deltaTime;
+            if(speed > 0 ) { speed -= 20 * Time.deltaTime; }
+            if (speed < 0) {speed += 20 * Time.deltaTime;}
         }
-       
-
-        }
-
-        //if (speed < 0.07 && speed > -0.07   ) { speed = 0; };
         if(verticalinput < -0.4 && speed>0 && ausol) { turnspeed = 100; }
         else turnspeed = speed;
         if (turnspeed <30) turnspeed = 30;
-        //if (horizontalinput != -1 && turnspeed > 100) { turnspeed -= 70 * Time.deltaTime; }
-        //if ((horizontalinput == -1 || horizontalinput == 1) && turnspeed < 80) { turnspeed += speed*Time.deltaTime; }
-        //if (horizontalinput != -1 && horizontalinput != 1 && turnspeed > 30) { turnspeed -= speed * Time.deltaTime; }
-        //transform.Translate(Vector3.right * Time.deltaTime * turnspeed * horizontalinput);
+    }
 
-
-
-        if (speed > 0.07 || speed < -0.07)
+    void FixedUpdate()
+    {
+        // Déplacement physique basé sur la vitesse
+        if (Mathf.Abs(speed) > 0.1f) // Déplacement seulement si la voiture a une vitesse
         {
-            //move forward
-            transform.Translate(Vector3.forward * Time.deltaTime * speed);
-            transform.Rotate(Vector3.up * Time.deltaTime * turnspeed * horizontalinput);
+            Vector3 forwardMovement = transform.forward * speed * Time.fixedDeltaTime;
+            rb.MovePosition(rb.position + forwardMovement);
+
+            // Rotation fluide
+            float rotation = horizontalinput * turnspeed * Time.fixedDeltaTime;
+            Quaternion turnOffset = Quaternion.Euler(0, rotation, 0);
+            rb.MoveRotation(rb.rotation * turnOffset);
         }
-<<<<<<< Updated upstream
-        
+        else
+        {
+            // Si la vitesse est proche de zéro, arrêter complètement le Rigidbody
+            rb.velocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+        }
+    
     }
-=======
-        else { transform.Translate(0, 0, 0); }
-        // Rotation uniquement si la voiture bouge
-    }
-    void OnCollisionEnter(Collision collision)
+void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Wall") // Si c'est un mur
         {
@@ -148,6 +84,4 @@ public class PlayerController : MonoBehaviour
         }
         else mur = false;
     }
-
->>>>>>> Stashed changes
 }
