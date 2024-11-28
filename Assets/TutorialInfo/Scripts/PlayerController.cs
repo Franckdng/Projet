@@ -7,6 +7,7 @@ using UnityEngine.UIElements;
 public class PlayerController : MonoBehaviour
 {
     public control button;
+    public SteeringWheel wheel;
     public float speed = 0.0f;
     public float turnspeed;
     public float horizontalinput;
@@ -30,7 +31,7 @@ public class PlayerController : MonoBehaviour
 
         // Obtenir les entrées
 
-        horizontalinput = button.b;
+        horizontalinput = wheel.GetClampedValue();
         verticalinput = button.a;
 
         // Accélération et décélération
